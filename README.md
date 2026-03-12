@@ -1,5 +1,5 @@
 # Paper-Fetch 
-A automated shell-script to store and organize research paper in local storage.
+A automated shell-script to store and organize research paper in local file-system.
 
 ## Installation 
 
@@ -11,7 +11,7 @@ A automated shell-script to store and organize research paper in local storage.
 
 ### installation Script
 
-Use the [install.sh] to mv the scrip to bin, to use the scrip across the filesystem.
+Use the [install.sh](install.sh) to mv the scrip to bin, to use the scrip across the filesystem.
 
 ## Usage
 
