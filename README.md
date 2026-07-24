@@ -1,32 +1,136 @@
-# Paper-Fetch 
-A automated shell-script to store and organize research paper in local file-system.
+# Paper Fetch
 
-## Installation 
+Paper Fetch is a lightweight command-line tool for researchers that turns a paper URL or local PDF into an organized research archive. It downloads the paper, extracts metadata when available, generates Markdown notes, and builds a BibTeX-friendly index for your collection.
 
-### Package Dependencies 
+## Why this project exists
 
-- wget
-- poppler-utils
-- perl-image-exiftool
+Research often involves collecting papers from many places and keeping them in a structure that is easy to browse later. Paper Fetch helps you do that in one step.
 
-### installation Script
+## What it does
 
-Use the [install.sh](install.sh) to mv the scrip to bin, to use the scrip across the filesystem.
+- accepts a paper URL or a local PDF file
+- auto-converts arXiv abstract links to direct PDF links
+- extracts metadata from arXiv and Crossref when available
+- falls back to PDF text and exiftool metadata when needed
+- creates a folder with:
+  - the PDF
+  - a Markdown notes file
+  - an entry in a central contents index
 
-## Usage
+## Repository structure
 
-- For statically displayed pdf in the web:
+```text
+paper-fetch/
+├── linux/
+│   ├── fetchpaper.sh
+│   └── install.sh
+├── windows/
+│   ├── fetchpaper.ps1
+│   └── install.ps1
+└── README.md
+```
+
+## Installation
+
+Choose the version that matches your system.
+
+### Linux
+
+Ubuntu / Debian:
 
 ```bash
-fetchpaper <url>
+sudo apt update
+sudo apt install -y wget poppler-utils libimage-exiftool-perl curl jq file
 ```
-- If the above didn't work, download the pdf manually in the local dir. Then, pass the address to the fetchpaper.
+
+Fedora:
 
 ```bash
-fetchpaper <relative_path>
+sudo dnf install -y wget poppler-utils perl-Image-ExifTool curl jq file
 ```
 
-The above commamd will take the relative path of the pdf locally, and then moves to the targeted location where the command ran and then organizes it.
+Arch:
 
-## Issues 
-If you face any troubles, raise a issue.
+```bash
+sudo pacman -S --needed wget poppler jq file perl-image-exiftool curl
+```
+
+Then install the CLI:
+
+```bash
+cd linux
+chmod +x install.sh
+./install.sh
+```
+
+### Windows
+
+PowerShell 5+ and a modern Windows 10/11 installation are recommended.
+
+Install the required tools first:
+
+```powershell
+winget install --id Chocolatey.Chocolatey -y
+choco install poppler exiftool -y
+```
+
+Then install the script:
+
+```powershell
+cd windows
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+./install.ps1
+```
+
+## Quick start
+
+### Linux
+
+```bash
+fetchpaper https://arxiv.org/abs/2401.00001
+```
+
+Or with a local PDF:
+
+```bash
+fetchpaper ./my-paper.pdf
+```
+
+### Windows
+
+```powershell
+fetchpaper https://arxiv.org/abs/2401.00001
+```
+
+Or with a local PDF:
+
+```powershell
+fetchpaper .\my-paper.pdf
+```
+
+## Output
+
+Each run creates a folder named using the cleaned title and year, for example:
+
+```text
+My_Paper_2024/
+├── Smith_2024.pdf
+├── Smith_2024.md
+```
+
+It also updates a file named contents.md in the current working directory with the paper entry and BibTeX block.
+
+## Notes
+
+- The Linux version uses Bash and standard Unix tools.
+- The Windows version uses PowerShell.
+- exiftool is optional, but it improves metadata extraction when available.
+- If a command is missing, install it first and try the script again.
+
+## Contributing
+
+Contributions are welcome. If you find a bug or want to improve the workflow, feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
